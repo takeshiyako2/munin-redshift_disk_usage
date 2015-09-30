@@ -43,11 +43,16 @@ env.dbname xxxxxx
 usage.value 23
 ```
 
+6) restart munin-node
+
+```
+# service munin-node restart
+```
+
 
 # AUTHOR
 
-Contributed by Takeshi Yako
-https://github.com/takeshiyako2
+Takeshi Yako
 
 # LICENSE
 
