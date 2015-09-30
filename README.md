@@ -44,3 +44,11 @@ usage.value 23
 ```
 
 
+# AUTHOR
+
+Contributed by Takeshi Yako
+https://github.com/takeshiyako2
+
+# LICENSE
+
+MIT
