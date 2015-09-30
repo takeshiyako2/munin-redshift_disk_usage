@@ -1,6 +1,6 @@
 # munin-redshift_disk_usage
 
-This is munin plugin for redshift desk usage check.
+This is munin plugin for Amazon Redshift desk usage check.
 
 # how to set up
 
