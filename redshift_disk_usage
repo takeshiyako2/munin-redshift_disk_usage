@@ -16,7 +16,7 @@ connection = PG::connect(@redshift)
 if ARGV[0] == 'config' then
    puts "graph_category redshift"
    puts "graph_title redshift disk usage percent"
-   puts "graph_args --rigid --lower-limit 0 –upper-limit 100"
+   puts "graph_args --rigid --lower-limit 0 –-upper-limit 100"
    puts "usage.label usage"
    puts "usage.info usage"
    puts "usage.type GAUGE"
