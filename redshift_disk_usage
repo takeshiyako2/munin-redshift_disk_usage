@@ -1,0 +1,54 @@
+#!/usr/bin/env ruby
+require 'rubygems'
+require 'pg'
+
+# Redshift conf
+@redshift = {
+  :host => ENV['host'],
+  :port => ENV['port'],
+  :user => ENV['user'],
+  :password => ENV['password'],
+  :dbname => ENV['dbname']
+}
+connection = PG::connect(@redshift)
+
+# command
+if ARGV[0] == 'config' then
+   puts "graph_category redshift"
+   puts "graph_title redshift disk usage percent"
+   puts "graph_args --rigid --lower-limit 0 –upper-limit 100"
+   puts "usage.label usage"
+   puts "usage.info usage"
+   puts "usage.type GAUGE"
+end
+
+# get status
+begin
+res = connection.exec("
+    SELECT
+      SUM(capacity)/1024 AS capacity_gbytes,
+      SUM(used)/1024 AS used_gbytes,
+      (SUM(capacity) - SUM(used))/1024 AS free_gbytes
+    FROM
+      stv_partitions
+    WHERE
+      part_begin=0;
+  ")
+  capacity_gbytes = res[0]["capacity_gbytes"]
+  used_gbytes = res[0]["used_gbytes"]
+  free_gbytes = res[0]["free_gbytes"]
+rescue PGError => ex
+  # PGError process
+  print(ex.class," -> ",ex.message)
+rescue => ex
+  # Other Error  process
+  print(ex.class," -> ",ex.message)
+ensure
+  connection.close if connection
+end
+
+persentage = sprintf("%f", (used_gbytes.to_f / capacity_gbytes.to_f) * 100).to_i.truncate
+
+# output
+printf("usage.value %s\n", persentage)
+exit 0
